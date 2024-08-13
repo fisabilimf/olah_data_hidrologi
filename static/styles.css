@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.rainfall-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.rainfall-table th,
+.rainfall-table td {
+    border: 1px solid #000;
+    padding: 8px;
+}
+
+.table-title {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.table-year {
+    text-align: center;
+    font-weight: normal;
+}
+
+.table-months span {
+    margin-right: 10px;
+}
+
+.station-name {
+    background-color: #e0ffe0;
+    font-weight: bold;
+}
+
+.rainfall-data,
+.total-data,
+.period-data,
+.max-data {
+    text-align: center;
+}
+
+.rainfall-data:empty::after,
+.total-data:empty::after,
+.period-data:empty::after,
+.max-data:empty::after {
+    content: '0';
+}

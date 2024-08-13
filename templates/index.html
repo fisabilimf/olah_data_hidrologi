@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Curah Hujan Harian</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>DATA CURAH HUJAN HARIAN</h2>
+    <p>Tahun : [Tahun]</p>
+
+    <table>
+        <tr>
+            <th>NAMA STASIUN</th>
+            <td>[Nama Stasiun]</td>
+            <th>Wilayah Sungai</th>
+            <td>[Wilayah Sungai]</td>
+            <th>Kode Database</th>
+            <td>[Kode Database]</td>
+        </tr>
+        <tr>
+            <th>Kode Stasiun</th>
+            <td>[Kode Stasiun]</td>
+            <th>Kelurahan/Desa</th>
+            <td>[Kelurahan/Desa]</td>
+            <th>Tahun Pendirian</th>
+            <td>[Tahun Pendirian]</td>
+        </tr>
+        <tr>
+            <th>Lintang Selatan</th>
+            <td>[Longitude]</td>
+            <th>Kecamatan</th>
+            <td>[Kecamatan]</td>
+            <th>Tipe Alat</th>
+            <td>[Tipe Alat]</td>
+        </tr>
+        <tr>
+            <th>Bujur Timur</th>
+            <td>[Latitude]</td>
+            <th>Kab/Kota</th>
+            <td>[Kabupaten]</td>
+            <th>Pengelola</th>
+            <td>[Pengelola]</td>
+        </tr>
+        <tr>
+            <th>Elevasi</th>
+            <td>[Elevation]</td>
+            <td colspan="4"></td>
+        </tr>
+    </table>
+
+    <br>
+
+    <form method="post" action="/">
+        <table>
+            <tr>
+                <th rowspan="2">Tanggal</th>
+                <th colspan="12">Bulan</th>
+            </tr>
+            <tr>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+            </tr>
+            <!-- Rows for the days -->
+            {% for day in range(1, 32) %}
+            <tr>
+                <td>{{ day }}</td>
+                {% for month in range(1, 13) %}
+                <td><input type="text" name="day{{ day }}_month{{ month }}" value="" oninput="calculateTotalAndMax({{ month }})"></td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+
+        <table>
+            <tr>
+                <th>Total</th>
+                {% for month in range(1, 13) %}
+                <td><input type="text" id="total_month{{ month }}" name="total_month{{ month }}" value="0" readonly></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Periode1</th>
+                {% for month in range(1, 13) %}
+                <td><input type="text" name="periode1_month{{ month }}" value="0"></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Periode2</th>
+                {% for month in range(1, 13) %}
+                <td><input type="text" name="periode2_month{{ month }}" value="0"></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Periode3</th>
+                {% for month in range(1, 13) %}
+                <td><input type="text" name="periode3_month{{ month }}" value="0"></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Maksimum</th>
+                {% for month in range(1, 13) %}
+                <td><input type="text" id="maksimum_month{{ month }}" name="maksimum_month{{ month }}" value="0" readonly></td>
+                {% endfor %}
+            </tr>
+        </table>
+
+        <br>
+
+        <table>
+            <tr>
+                <th>Data Hujan</th>
+                {% for month in range(1, 13) %}
+                <td><input type="text" name="datahujan_month{{ month }}" value="[JAM HUJAN]"></td>
+                {% endfor %}
+            </tr>
+        </table>
+
+        <br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function calculateTotalAndMax(month) {
+            let total = 0;
+            let max = 0;
+            for (let day = 1; day <= 31; day++) {
+                const input = document.querySelector(`input[name="day${day}_month${month}"]`);
+                if (input && !isNaN(parseFloat(input.value))) {
+                    const value = parseFloat(input.value) || 0;
+                    total += value;
+                    if (value > max) {
+                        max = value;
+                    }
+                }
+            }
+            document.getElementById(`total_month${month}`).value = total;
+            document.getElementById(`maksimum_month${month}`).value = max;
+        }
+    </script>
+
+</body>
+</html>
