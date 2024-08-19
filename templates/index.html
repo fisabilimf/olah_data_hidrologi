@@ -27,6 +27,8 @@
     </style>
 </head>
 <body>
+    <form method="post" action="/">
+
 
     <h2>DATA CURAH HUJAN HARIAN</h2>
     <p>Tahun : [Tahun]</p>
@@ -73,7 +75,6 @@
 
     <br>
 
-    <form method="post" action="/">
         <table>
             <tr>
                 <th rowspan="2">Tanggal</th>
@@ -98,7 +99,7 @@
             <tr>
                 <td>{{ day }}</td>
                 {% for month in range(1, 13) %}
-                <td><input type="text" name="day{{ day }}_month{{ month }}" value="" oninput="calculateTotals({{ month }})"></td>
+                <td><input type="text" name="day{{ day }}_month{{ month }}" value="0" oninput="calculateTotals({{ month }})"></td>
                 {% endfor %}
             </tr>
             {% endfor %}
@@ -110,31 +111,31 @@
             <tr>
                 <th>Total</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" id="total_month{{ month }}" name="total_month{{ month }}" value="" readonly></td>
+                <td><input type="text" id="total_month{{ month }}" name="total_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
             <tr>
                 <th>Periode1</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" id="periode1_month{{ month }}" name="periode1_month{{ month }}" value="" readonly></td>
+                <td><input type="text" id="periode1_month{{ month }}" name="periode1_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
             <tr>
                 <th>Periode2</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" id="periode2_month{{ month }}" name="periode2_month{{ month }}" value="" readonly></td>
+                <td><input type="text" id="periode2_month{{ month }}" name="periode2_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
             <tr>
                 <th>Periode3</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" id="periode3_month{{ month }}" name="periode3_month{{ month }}" value="" readonly></td>
+                <td><input type="text" id="periode3_month{{ month }}" name="periode3_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
             <tr>
                 <th>Maksimum</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" id="maksimum_month{{ month }}" name="maksimum_month{{ month }}" value="" readonly></td>
+                <td><input type="text" id="maksimum_month{{ month }}" name="maksimum_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
         </table>
@@ -145,19 +146,15 @@
             <tr>
                 <th>Data Hujan</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" name="datahujan_month{{ month }}" value="[JAM HUJAN]"></td>
+                <td><input type="text" name="datahujan_month{{ month }}" value="0"></td>
                 {% endfor %}
             </tr>
         </table>
 
         <br>
 
-        <input type="submit" value="Submit">
-    </form>
+        <br><br>
 
-    <br><br>
-
-    <form method="post" action="/">
         <table>
             <tr>
                 <th>No</th>
@@ -175,41 +172,41 @@
             <tr>
                 <td>{{ i + 1 }}</td>
                 <td>{{ months[i] }}</td>
-                <td><input type="text" id="curah_hujan_{{ i }}" name="curah_hujan_{{ i }}" value="" readonly></td>
-                <td><input type="text" name="sk_{{ i }}" id="sk_{{ i }}" value="" readonly></td>
-                <td><input type="text" name="sk_brackets_{{ i }}" id="sk_brackets_{{ i }}" value="" readonly></td>
-                <td><input type="text" name="dy2_{{ i }}" id="dy2_{{ i }}" value="" readonly></td>
-                <td><input type="text" name="dy_{{ i }}" id="dy_{{ i }}" value="" readonly></td>
-                <td><input type="text" name="sk_star_{{ i }}" value=""></td>
-                <td><input type="text" name="sk_star_brackets_{{ i }}" value=""></td>
+                <td><input type="text" id="curah_hujan_{{ i }}" name="curah_hujan_{{ i }}" value="0" readonly></td>
+                <td><input type="text" name="sk_{{ i }}" id="sk_{{ i }}" value="0" readonly></td>
+                <td><input type="text" name="sk_brackets_{{ i }}" id="sk_brackets_{{ i }}" value="0" readonly></td>
+                <td><input type="text" name="dy2_{{ i }}" id="dy2_{{ i }}" value="0" readonly></td>
+                <td><input type="text" name="dy_{{ i }}" id="dy_{{ i }}" value="0" readonly></td>
+                <td><input type="text" name="sk_star_{{ i }}" value="0" readonly></td>
+                <td><input type="text" name="sk_star_brackets_{{ i }}" value="0" readonly></td>
             </tr>
             {% endfor %}
             <tr>
                 <td colspan="2">Rerata</td>
-                <td><input type="text" name="rerata_curah_hujan" id="rerata_curah_hujan" value="" readonly></td>
+                <td><input type="text" name="rerata_curah_hujan" id="rerata_curah_hujan" value="0" readonly></td>
                 <td colspan="1"></td>
-                <td><input type="text" name="rerata_sk_brackets" id="rerata_sk_brackets" value="" readonly></td>
+                <td><input type="text" name="rerata_sk_brackets" id="rerata_sk_brackets" value="0" readonly></td>
                 <td colspan="4"></td>
             </tr>
             <tr>
                 <td colspan="2">Jumlah</td>
-                <td><input type="text" name="jumlah_curah_hujan" id="jumlah_curah_hujan" value="" readonly></td>
+                <td><input type="text" name="jumlah_curah_hujan" id="jumlah_curah_hujan" value="0" readonly></td>
                 <td colspan="2"></td>
-                <td><input type="text" name="jumlah_dy2" value=""></td>
+                <td><input type="text" name="jumlah_dy2" value="0" readonly></td>
             </tr>
             <tr>
                 <td colspan="2">Maks</td>
-                <td><input type="text" name="maks_curah_hujan" id="maks_curah_hujan" value="" readonly></td>
+                <td><input type="text" name="maks_curah_hujan" id="maks_curah_hujan" value="0" readonly></td>
                 <td colspan="4"></td>
-                <td><input type="text" name="maks_sk" value=""></td>
-                <td><input type="text" name="maks_sk_brackets" value=""></td>
+                <td><input type="text" name="maks_sk" value="0" readonly></td>
+                <td><input type="text" name="maks_sk_brackets" value="0" readonly></td>
             </tr>
             <tr>
                 <td colspan="2">Min</td>
-                <td><input type="text" name="min_curah_hujan" id="min_curah_hujan" value="" readonly></td>
+                <td><input type="text" name="min_curah_hujan" id="min_curah_hujan" value="0" readonly></td>
                 <td colspan="4"></td>
-                <td><input type="text" name="min_sk" value=""></td>
-                <td><input type="text" name="min_sk_brackets" value=""></td>
+                <td><input type="text" name="min_sk" value="0" readonly></td>
+                <td><input type="text" name="min_sk_brackets" value="0" readonly></td>
             </tr>
         </table>
         
@@ -218,37 +215,37 @@
         <table>
             <tr>
                 <td>n</td>
-                <td><input type="text" name="n" id="n" value="12"></td>
+                <td><input type="text" name="n" id="n" value="12" readonly></td>
             </tr>
             <tr>
                 <td>Sk**mak</td>
-                <td><input type="text" name="sk_mak" value=""></td>
+                <td><input type="text" name="sk_mak" value="0" readonly></td>
             </tr>
             <tr>
                 <td>Sk**min</td>
-                <td><input type="text" name="sk_min" value=""></td>
+                <td><input type="text" name="sk_min" value="0" readonly></td>
             </tr>
             <tr>
                 <td>Q = Sk**mak</td>
-                <td><input type="text" name="q_sk_mak" value=""></td>
+                <td><input type="text" name="q_sk_mak" value="0" readonly></td>
             </tr>
             <tr>
                 <td>R = Sk**mak - Sk**min</td>
-                <td><input type="text" name="r_sk_diff" value=""></td>
+                <td><input type="text" name="r_sk_diff" value="0" readonly></td>
             </tr>
             <tr>
                 <td>Q/n<sup>0.5</sup></td>
-                <td><input type="text" name="q_over_n" value=""></td>
-                <td> dengan probabilitas 95% dari tabel</td>
+                <td><input type="text" name="q_over_n" value="0" readonly></td>
+                <td> dengan probabilitas <input type="text" name="" id="" value="95">% dari tabel</td>
                 <td><input type="text"></td>
-                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;"></td>
+                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" readonly></td>
             </tr>
             <tr>
                 <td>R/n<sup>0.5</sup></td>
-                <td><input type="text" name="r_over_n" value=""></td>
-                <td> dengan probabilitas 95% dari tabel</td>
+                <td><input type="text" name="r_over_n" value="0"></td>
+                <td> dengan probabilitas <input type="text" name="" id="" value="95">% dari tabel</td>
                 <td><input type="text"></td>
-                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;"></td>
+                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" readonly></td>
             </tr>
         </table>
 
@@ -263,68 +260,69 @@
                     <th colspan="3">R/n<sup>0.5</sup></th>
                 </tr>
                 <tr>
-                    <th>90%</th>
-                    <th>95%</th>
-                    <th>99%</th>
-                    <th>90%</th>
-                    <th>95%</th>
-                    <th>99%</th>
+                    <th><input type="text" name="header_q_90" value="90%" readonly></th>
+                    <th><input type="text" name="header_q_95" value="95%" readonly></th>
+                    <th><input type="text" name="header_q_99" value="99%" readonly></th>
+                    <th><input type="text" name="header_r_90" value="90%" readonly></th>
+                    <th><input type="text" name="header_r_95" value="95%" readonly></th>
+                    <th><input type="text" name="header_r_99" value="99%" readonly></th>
+                </tr>                
+                <tr>
+                    <td><input type="text" name="n_10" value="10" readonly></td>
+                    <td><input type="text" name="q_90_10" value="1.05" readonly></td>
+                    <td><input type="text" name="q_95_10" value="1.14" readonly></td>
+                    <td><input type="text" name="q_99_10" value="1.29" readonly></td>
+                    <td><input type="text" name="r_90_10" value="1.21" readonly></td>
+                    <td><input type="text" name="r_95_10" value="1.28" readonly></td>
+                    <td><input type="text" name="r_99_10" value="1.38" readonly></td>
                 </tr>
                 <tr>
-                    <td>10</td>
-                    <td>1,05</td>
-                    <td>1,14</td>
-                    <td>1,29</td>
-                    <td>1,21</td>
-                    <td>1,28</td>
-                    <td>1,38</td>
+                    <td><input type="text" name="n_20" value="20" readonly></td>
+                    <td><input type="text" name="q_90_20" value="1.10" readonly></td>
+                    <td><input type="text" name="q_95_20" value="1.22" readonly></td>
+                    <td><input type="text" name="q_99_20" value="1.42" readonly></td>
+                    <td><input type="text" name="r_90_20" value="1.34" readonly></td>
+                    <td><input type="text" name="r_95_20" value="1.43" readonly></td>
+                    <td><input type="text" name="r_99_20" value="1.60" readonly></td>
                 </tr>
                 <tr>
-                    <td>20</td>
-                    <td>1,1</td>
-                    <td>1,22</td>
-                    <td>1,42</td>
-                    <td>1,34</td>
-                    <td>1,43</td>
-                    <td>1,6</td>
+                    <td><input type="text" name="n_30" value="30" readonly></td>
+                    <td><input type="text" name="q_90_30" value="1.12" readonly></td>
+                    <td><input type="text" name="q_95_30" value="1.24" readonly></td>
+                    <td><input type="text" name="q_99_30" value="1.48" readonly></td>
+                    <td><input type="text" name="r_90_30" value="1.40" readonly></td>
+                    <td><input type="text" name="r_95_30" value="1.50" readonly></td>
+                    <td><input type="text" name="r_99_30" value="1.70" readonly></td>
                 </tr>
                 <tr>
-                    <td>30</td>
-                    <td>1,12</td>
-                    <td>1,24</td>
-                    <td>1,48</td>
-                    <td>1,4</td>
-                    <td>1,5</td>
-                    <td>1,7</td>
+                    <td><input type="text" name="n_40" value="40" readonly></td>
+                    <td><input type="text" name="q_90_40" value="1.14" readonly></td>
+                    <td><input type="text" name="q_95_40" value="1.27" readonly></td>
+                    <td><input type="text" name="q_99_40" value="1.52" readonly></td>
+                    <td><input type="text" name="r_90_40" value="1.44" readonly></td>
+                    <td><input type="text" name="r_95_40" value="1.55" readonly></td>
+                    <td><input type="text" name="r_99_40" value="1.78" readonly></td>
                 </tr>
                 <tr>
-                    <td>40</td>
-                    <td>1,14</td>
-                    <td>1,27</td>
-                    <td>1,52</td>
-                    <td>1,44</td>
-                    <td>1,55</td>
-                    <td>1,78</td>
+                    <td><input type="text" name="n_100" value="100" readonly></td>
+                    <td><input type="text" name="q_90_100" value="1.17" readonly></td>
+                    <td><input type="text" name="q_95_100" value="1.32" readonly></td>
+                    <td><input type="text" name="q_99_100" value="1.63" readonly></td>
+                    <td><input type="text" name="r_90_100" value="1.62" readonly></td>
+                    <td><input type="text" name="r_95_100" value="1.75" readonly></td>
+                    <td><input type="text" name="r_99_100" value="2.00" readonly></td>
                 </tr>
                 <tr>
-                    <td>100</td>
-                    <td>1,17</td>
-                    <td>1,32</td>
-                    <td>1,63</td>
-                    <td>1,62</td>
-                    <td>1,75</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>12</td>
-                    <td>1,05</td>
-                    <td>1,14</td>
-                    <td>1,29</td>
-                    <td>1,21</td>
-                    <td>1,28</td>
-                    <td>1,38</td>
+                    <td><input type="text" name="n_12" value="12" readonly></td>
+                    <td><input type="text" name="q_90_12" value="1.05" readonly></td>
+                    <td><input type="text" name="q_95_12" value="1.14" readonly></td>
+                    <td><input type="text" name="q_99_12" value="1.29" readonly></td>
+                    <td><input type="text" name="r_90_12" value="1.21" readonly></td>
+                    <td><input type="text" name="r_95_12" value="1.28" readonly></td>
+                    <td><input type="text" name="r_99_12" value="1.38" readonly></td>
                 </tr>
             </table>
+            
             <p>Sumber: Sri Harto, 1993: 168</p>
         </div>
 
@@ -339,12 +337,16 @@
             let periode1 = 0;
             let periode2 = 0;
             let periode3 = 0;
+            let nonZeroCount = 0;
     
             for (let day = 1; day <= 31; day++) {
                 const input = document.querySelector(`input[name="day${day}_month${month}"]`);
                 if (input && !isNaN(parseFloat(input.value))) {
                     const value = parseFloat(input.value) || 0;
                     total += value;
+                    if (value > 0) {
+                        nonZeroCount++;
+                    }
                     if (value > max) {
                         max = value;
                     }
@@ -364,6 +366,9 @@
             document.getElementById(`periode3_month${month}`).value = periode3;
     
             document.getElementById(`curah_hujan_${month - 1}`).value = total;
+
+            // Set the datahujan_month value to the count of non-zero values
+            document.getElementsByName(`datahujan_month${month}`)[0].value = nonZeroCount;
     
             // Recalculate the total, average, maximum, minimum, Sk*, Sk* Brackets, and Rerata Sk* Brackets
             calculateCurahHujanTotal();
@@ -405,6 +410,9 @@
     
             // Calculate Sk* and Sk* Brackets for each month, then calculate the average Sk* Brackets
             calculateSk(rerataCurahHujan);
+
+            // Now calculate all Sk* values
+            calculateAllSkStars();
         }
     
         function calculateSk(rerata) {
@@ -438,6 +446,31 @@
             calculateDy2Sum();            
         }
 
+        function calculateSkStar(i) {
+            const skBracketsValue = parseFloat(document.getElementById(`sk_brackets_${i}`).value) || 0;
+            const dyValue = parseFloat(document.getElementById(`dy_${i}`).value) || 1; // Avoid division by 0
+
+            const skStarValue = (dyValue !== 0) ? (skBracketsValue / dyValue).toFixed(2) : 0;
+            document.getElementsByName(`sk_star_${i}`)[0].value = skStarValue;
+
+            // Calculate the absolute value for sk_star_brackets
+            const skStarBracketsValue = Math.abs(skStarValue).toFixed(2);
+            document.getElementsByName(`sk_star_brackets_${i}`)[0].value = skStarBracketsValue;
+        }
+
+        // Call this function after calculating all Sk* values
+        function calculateAllSkStars() {
+            for (let i = 0; i < 12; i++) {
+                calculateSkStar(i);
+            }
+
+            // Now calculate the maximum and minimum Sk* values
+            calculateMaxMinSk();
+
+            // Now calculate the maximum and minimum Sk* Brackets values
+            calculateMaxMinSkBrackets();
+        }
+
         function calculateDy2Sum() {
             let sumDy2 = 0;
 
@@ -461,6 +494,132 @@
             }
         }
         
+        function calculateMaxMinSk() {
+            let maxSk = -Infinity;
+            let minSk = Infinity;
+
+            for (let i = 0; i < 12; i++) {
+                const skStarValue = parseFloat(document.getElementsByName(`sk_star_${i}`)[0].value) || 0;
+
+                if (skStarValue > maxSk) {
+                    maxSk = skStarValue;
+                }
+
+                if (skStarValue < minSk) {
+                    minSk = skStarValue;
+                }
+            }
+
+            // Set the maximum and minimum values
+            document.getElementsByName('maks_sk')[0].value = maxSk.toFixed(2);
+            document.getElementsByName('min_sk')[0].value = minSk.toFixed(2);
+
+            // Set the sk_mak value
+            setSkMak();
+
+            // Set the sk_min value
+            setSkMin();
+        }
+
+        function calculateMaxMinSkBrackets() {
+            let maxSkBrackets = -Infinity;
+            let minSkBrackets = Infinity;
+
+            for (let i = 0; i < 12; i++) {
+                const skStarBracketsValue = parseFloat(document.getElementsByName(`sk_star_brackets_${i}`)[0].value) || 0;
+
+                if (skStarBracketsValue > maxSkBrackets) {
+                    maxSkBrackets = skStarBracketsValue;
+                }
+
+                if (skStarBracketsValue < minSkBrackets) {
+                    minSkBrackets = skStarBracketsValue;
+                }
+            }
+
+            // Set the maximum and minimum values
+            document.getElementsByName('maks_sk_brackets')[0].value = maxSkBrackets.toFixed(2);
+            document.getElementsByName('min_sk_brackets')[0].value = minSkBrackets.toFixed(2);
+        }
+
+        // Ensure this function is called after both sk_mak and sk_min are set
+        function setSkMak() {
+            // Assuming sk_mak value is already set
+            const maksSkValue = document.getElementsByName('maks_sk')[0].value;
+            document.getElementsByName('sk_mak')[0].value = maksSkValue;
+
+            // Set the q_sk_mak value
+            setQSkMak();
+
+            // Calculate and set r_sk_diff value
+            calculateRSkDiff();
+        }
+
+        function setSkMin() {
+            // Assuming sk_min value is already set
+            const minSkValue = document.getElementsByName('min_sk')[0].value;
+            document.getElementsByName('sk_min')[0].value = minSkValue;
+
+            // Calculate and set r_sk_diff value
+            calculateRSkDiff();
+        }
+
+        function setQSkMak() {
+            // Get the value from the sk_mak input field
+            const skMakValue = document.getElementsByName('sk_mak')[0].value;
+
+            // Set the value in the q_sk_mak input field
+            document.getElementsByName('q_sk_mak')[0].value = skMakValue;
+
+            // Calculate and set q_over_n value
+            calculateQOverN();
+        }
+
+        function calculateRSkDiff() {
+            // Get the value from the sk_mak input field
+            const skMakValue = parseFloat(document.getElementsByName('sk_mak')[0].value) || 0;
+
+            // Get the value from the sk_min input field
+            const skMinValue = parseFloat(document.getElementsByName('sk_min')[0].value) || 0;
+
+            // Calculate the difference
+            const rSkDiffValue = (skMakValue - skMinValue).toFixed(2);
+
+            // Set the value in the r_sk_diff input field
+            document.getElementsByName('r_sk_diff')[0].value = rSkDiffValue;
+
+            // Calculate and set r_over_n value
+            calculateROverN();
+        }
+
+        function calculateQOverN() {
+            // Get the value from q_sk_mak input field
+            const qSkMakValue = parseFloat(document.getElementsByName('q_sk_mak')[0].value) || 0;
+
+            // Get the value from n input field
+            const nValue = parseFloat(document.getElementById('n').value) || 1; // Default to 1 to avoid division by zero
+
+            // Calculate q_over_n using the formula q_sk_mak / (n ^ 0.5)
+            const qOverNValue = (qSkMakValue / Math.sqrt(nValue)).toFixed(2);
+
+            // Set the calculated value in the q_over_n input field
+            document.getElementsByName('q_over_n')[0].value = qOverNValue;
+        }
+
+        function calculateROverN() {
+            // Get the value from r_sk_diff input field
+            const rSkDiffValue = parseFloat(document.getElementsByName('r_sk_diff')[0].value) || 0;
+
+            // Get the value from n input field
+            const nValue = parseFloat(document.getElementById('n').value) || 1; // Default to 1 to avoid division by zero
+
+            // Calculate r_over_n using the formula r_sk_diff / (n ^ 0.5)
+            const rOverNValue = (rSkDiffValue / Math.sqrt(nValue)).toFixed(2);
+
+            // Set the calculated value in the r_over_n input field
+            document.getElementsByName('r_over_n')[0].value = rOverNValue;
+        }
+
 
     </script>
     
