@@ -57,57 +57,72 @@ def generate_excel(data):
 
         # Set column widths
         worksheet.set_column('A:A', 15)
-        worksheet.set_column('B:N', 10)
+        worksheet.set_column('B:M', 10)
 
         # Write the title
-        worksheet.merge_range('A1:N1', 'DATA CURAH HUJAN HARIAN', title_format)
-        worksheet.merge_range('A2:N2', f'Tahun : {data.get("tahun", "[Tahun]")}', normal_format)
+        worksheet.merge_range('A1:M1', 'DATA CURAH HUJAN HARIAN', title_format)
+        worksheet.merge_range('A2:M2', f'Tahun : {data.get("tahun", "[Tahun]")}', normal_format)
 
         # Write station information
-        worksheet.merge_range('A4:B4', 'NAMA STASIUN', header_format)
-        worksheet.merge_range('C4:E4', data.get('nama_stasiun', '[Nama Stasiun]'), normal_format)
+        worksheet.merge_range('A4:B4', 'Nama Stasiun', header_format)
+        worksheet.merge_range('C4:D4', data.get('nama_stasiun', '[Nama Stasiun]'), normal_format)
 
         worksheet.merge_range('A5:B5', 'Kode Stasiun', header_format)
-        worksheet.merge_range('C5:E5', data.get('kode_stasiun', '[Kode Stasiun]'), normal_format)
+        worksheet.merge_range('C5:D5', data.get('kode_stasiun', '[Kode Stasiun]'), normal_format)
 
-        worksheet.merge_range('F4:G4', 'Wilayah Sungai', header_format)
-        worksheet.merge_range('H4:J4', data.get('wilayah_sungai', '[Wilayah Sungai]'), normal_format)
+        worksheet.merge_range('F5:G5', 'Wilayah Sungai', header_format)
+        worksheet.merge_range('H5:I5', data.get('wilayah_sungai', '[Wilayah Sungai]'), normal_format)
 
-        worksheet.merge_range('F5:G5', 'Kelurahan/Desa', header_format)
-        worksheet.merge_range('H5:J5', data.get('kelurahan', '[Kelurahan/Desa]'), normal_format)
+        worksheet.merge_range('F6:G6', 'Kelurahan/Desa', header_format)
+        worksheet.merge_range('H6:I6', data.get('kelurahan', '[Kelurahan/Desa]'), normal_format)
 
         worksheet.merge_range('A6:B6', 'Lintang Selatan', header_format)
-        worksheet.merge_range('C6:E6', data.get('longitude', '[Longitude]'), normal_format)
+        worksheet.merge_range('C6:D6', data.get('longitude', '[Longitude]'), normal_format)
 
-        worksheet.merge_range('F6:G6', 'Kecamatan', header_format)
-        worksheet.merge_range('H6:J6', data.get('kecamatan', '[Kecamatan]'), normal_format)
+        worksheet.merge_range('F7:G7', 'Kecamatan', header_format)
+        worksheet.merge_range('H7:I7', data.get('kecamatan', '[Kecamatan]'), normal_format)
+
+        worksheet.merge_range('F8:G8', 'Kabupaten', header_format)
+        worksheet.merge_range('H8:I8', data.get('kabupaten', '[Kabupaten]'), normal_format)
 
         worksheet.merge_range('A7:B7', 'Bujur Timur', header_format)
-        worksheet.merge_range('C7:E7', data.get('latitude', '[Latitude]'), normal_format)
+        worksheet.merge_range('C7:D7', data.get('latitude', '[Latitude]'), normal_format)
 
         worksheet.merge_range('A8:B8', 'Elevasi', header_format)
-        worksheet.merge_range('C8:E8', data.get('elevation', '[Elevation]'), normal_format)
+        worksheet.merge_range('C8:D8', data.get('elevation', '[Elevation]'), normal_format)
+
+        worksheet.merge_range('J5:K5', 'Kode Database', header_format)
+        worksheet.merge_range('L5:M5', data.get('kode_database', '[Kode Database]'), normal_format)
+
+        worksheet.merge_range('J6:K6', 'Tahun Pendirian', header_format)
+        worksheet.merge_range('L6:M6', data.get('tahun_pendirian', '[Tahun Pendirian]'), normal_format)
+
+        worksheet.merge_range('J7:K7', 'Tipe Alat', header_format)
+        worksheet.merge_range('L7:M7', data.get('tipe_alat', '[Tipe Alat]'), normal_format)
+
+        worksheet.merge_range('J8:K8', 'Pengelola', header_format)
+        worksheet.merge_range('L8:M8', data.get('pengelola', '[Pengelola]'), normal_format)
 
         # Write rainfall data table headers
-        worksheet.write('A10', 'Tanggal', header_format)
+        worksheet.merge_range('A10:A11', 'Tanggal', header_format)
+        worksheet.merge_range('B10:M10', 'Bulan', header_format)
         for month in range(1, 13):
-            worksheet.write(9, month, f'Bulan {month}', header_format)
+            worksheet.write(10, month, f'{month}', header_format)
 
         # Write daily rainfall data
         for day in range(1, 32):
-            worksheet.write(day + 9, 0, day, normal_format)
+            worksheet.write(day + 10, 0, day, normal_format)
             for month in range(1, 13):
-                worksheet.write(day + 9, month, data.get(f'day{day}_month{month}', 0), normal_format)
+                worksheet.write(day + 10, month, data.get(f'day{day}_month{month}', 0), normal_format)
 
         # Write totals
         totals = ['Total', 'Periode1', 'Periode2', 'Periode3', 'Maksimum', 'Data Hujan']
         for i, total in enumerate(totals):
-            worksheet.write(41 + i, 0, total, header_format)
+            worksheet.write(42 + i, 0, total, header_format)
             for month in range(1, 13):
-                worksheet.write(41 + i, month, data.get(f'{total.lower()}_month{month}', 0), normal_format)
-
+                worksheet.write(42 + i, month, data.get(f'{total.lower()}_month{month}', 0), normal_format)
         # Write analysis table headers
-        analysis_start = 48
+        analysis_start = 49
         analysis_headers = ['No', 'Bulan', 'Curah Hujan', 'Sk*', '[Sk*]', 'Dy^2', 'Dy', 'Sk**', '[Sk**]']
         for i, header in enumerate(analysis_headers):
             worksheet.write(analysis_start, i, header, header_format)
@@ -127,43 +142,43 @@ def generate_excel(data):
 
         # Write final analysis summary
         worksheet.write(f'A{analysis_start + 13}', 'Rerata', header_format)
-        worksheet.write(f'C{analysis_start + 13}', data.get('rerata_curah_hujan', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 13}', data.get('rerata_curah_hujan', 0), normal_format)
 
         worksheet.write(f'A{analysis_start + 14}', 'Jumlah', header_format)
-        worksheet.write(f'C{analysis_start + 14}', data.get('jumlah_curah_hujan', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 14}', data.get('jumlah_curah_hujan', 0), normal_format)
 
         worksheet.write(f'A{analysis_start + 16}', 'Hasil analisis :', header_format)
 
         worksheet.write(f'A{analysis_start + 17}', 'n', header_format)
-        worksheet.write(f'C{analysis_start + 17}', data.get('n', 12), yellow_fill)
+        worksheet.write(f'B{analysis_start + 17}', data.get('n', 12), yellow_fill)
 
         worksheet.write(f'A{analysis_start + 18}', 'Sk**mak', header_format)
-        worksheet.write(f'C{analysis_start + 18}', data.get('sk_mak', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 18}', data.get('sk_mak', 0), normal_format)
 
         worksheet.write(f'A{analysis_start + 19}', 'Sk**min', header_format)
-        worksheet.write(f'C{analysis_start + 19}', data.get('sk_min', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 19}', data.get('sk_min', 0), normal_format)
 
         worksheet.write(f'A{analysis_start + 20}', 'Q = Sk**mak', header_format)
-        worksheet.write(f'C{analysis_start + 20}', data.get('sk_mak', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 20}', data.get('sk_mak', 0), normal_format)
 
         worksheet.write(f'A{analysis_start + 21}', 'R = Sk**mak - Sk**min', header_format)
-        worksheet.write(f'C{analysis_start + 21}', data.get('r_sk_diff', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 21}', data.get('r_sk_diff', 0), normal_format)
 
         worksheet.write(f'A{analysis_start + 22}', 'Q/n^0.5', header_format)
-        worksheet.write(f'C{analysis_start + 22}', data.get('q_over_n', 0), normal_format)
-        worksheet.write(f'D{analysis_start + 22}', '< dengan probabilitas 95% dari tabel', header_format)
-        worksheet.write(f'E{analysis_start + 22}', data.get('q_table_value', 0), yellow_fill)
-        worksheet.write(f'F{analysis_start + 22}', 'OK!!!', header_format)
+        worksheet.write(f'B{analysis_start + 22}', data.get('q_over_n', 0), normal_format)
+        worksheet.write(f'C{analysis_start + 22}', '< dengan probabilitas 95% dari tabel', header_format)
+        worksheet.write(f'D{analysis_start + 22}', data.get('q_table_value', 0), yellow_fill)
+        worksheet.write(f'E{analysis_start + 22}', 'OK!!!', header_format)
 
         worksheet.write(f'A{analysis_start + 23}', 'R/n^0.5', header_format)
-        worksheet.write(f'C{analysis_start + 23}', data.get('r_over_n', 0), normal_format)
-        worksheet.write(f'D{analysis_start + 23}', '< dengan probabilitas 95% dari tabel', header_format)
-        worksheet.write(f'E{analysis_start + 23}', data.get('r_table_value', 0), yellow_fill)
-        worksheet.write(f'F{analysis_start + 23}', 'OK!!!', header_format)
+        worksheet.write(f'B{analysis_start + 23}', data.get('r_over_n', 0), normal_format)
+        worksheet.write(f'C{analysis_start + 23}', '< dengan probabilitas 95% dari tabel', header_format)
+        worksheet.write(f'D{analysis_start + 23}', data.get('r_table_value', 0), yellow_fill)
+        worksheet.write(f'E{analysis_start + 23}', 'OK!!!', header_format)
 
         # Write the final analysis table for Q/n^0.5 and R/n^0.5 values
         final_table_start = analysis_start + 25
-        worksheet.merge_range(f'C{final_table_start}:E{final_table_start}', 'Nilai Q/n^0.5 dan R/n^0.5', title_format)
+        worksheet.merge_range(f'B{final_table_start}:D{final_table_start}', 'Nilai Q/n^0.5 dan R/n^0.5', title_format)
 
         final_table_headers = ['n', 'Q/n^0.5 (90%)', 'Q/n^0.5 (95%)', 'Q/n^0.5 (99%)', 'R/n^0.5 (90%)', 'R/n^0.5 (95%)', 'R/n^0.5 (99%)']
         for i, header in enumerate(final_table_headers):
@@ -175,9 +190,7 @@ def generate_excel(data):
             (20, 1.10, 1.22, 1.42, 1.34, 1.43, 1.60),
             (30, 1.12, 1.24, 1.48, 1.40, 1.50, 1.70),
             (40, 1.14, 1.27, 1.52, 1.44, 1.55, 1.78),
-            (100, 1.17, 1.29, 1.63, 1.62, 1.75, 2.00),
-            (12, data.get('q_90_12', 1.05), data.get('q_95_12', 1.14), data.get('q_99_12', 1.29), 
-                data.get('r_90_12', 1.21), data.get('r_95_12', 1.28), data.get('r_99_12', 1.38))
+            (100, 1.17, 1.29, 1.63, 1.62, 1.75, 2.00)
         ]
 
         for i, row in enumerate(final_table_data):

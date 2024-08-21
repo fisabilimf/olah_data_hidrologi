@@ -30,48 +30,49 @@
     <form method="post" action="/">
 
 
-    <h2>DATA CURAH HUJAN HARIAN</h2>
-    <p>Tahun : [Tahun]</p>
-
-    <table>
-        <tr>
-            <th>NAMA STASIUN</th>
-            <td>[Nama Stasiun]</td>
-            <th>Wilayah Sungai</th>
-            <td>[Wilayah Sungai]</td>
-            <th>Kode Database</th>
-            <td>[Kode Database]</td>
-        </tr>
-        <tr>
-            <th>Kode Stasiun</th>
-            <td>[Kode Stasiun]</td>
-            <th>Kelurahan/Desa</th>
-            <td>[Kelurahan/Desa]</td>
-            <th>Tahun Pendirian</th>
-            <td>[Tahun Pendirian]</td>
-        </tr>
-        <tr>
-            <th>Lintang Selatan</th>
-            <td>[Longitude]</td>
-            <th>Kecamatan</th>
-            <td>[Kecamatan]</td>
-            <th>Tipe Alat</th>
-            <td>[Tipe Alat]</td>
-        </tr>
-        <tr>
-            <th>Bujur Timur</th>
-            <td>[Latitude]</td>
-            <th>Kab/Kota</th>
-            <td>[Kabupaten]</td>
-            <th>Pengelola</th>
-            <td>[Pengelola]</td>
-        </tr>
-        <tr>
-            <th>Elevasi</th>
-            <td>[Elevation]</td>
-            <td colspan="4"></td>
-        </tr>
-    </table>
+        <h2>DATA CURAH HUJAN HARIAN</h2>
+        <p>Tahun : <input type="text" name="tahun" value="[Tahun]" /></p>
+        
+        <table>
+            <tr>
+                <th>NAMA STASIUN</th>
+                <td><input type="text" name="nama_stasiun" value="[Nama Stasiun]" /></td>
+                <th>Wilayah Sungai</th>
+                <td><input type="text" name="wilayah_sungai" value="[Wilayah Sungai]" /></td>
+                <th>Kode Database</th>
+                <td><input type="text" name="kode_database" value="[Kode Database]" /></td>
+            </tr>
+            <tr>
+                <th>Kode Stasiun</th>
+                <td><input type="text" name="kode_stasiun" value="[Kode Stasiun]" /></td>
+                <th>Kelurahan/Desa</th>
+                <td><input type="text" name="kelurahan" value="[Kelurahan/Desa]" /></td>
+                <th>Tahun Pendirian</th>
+                <td><input type="text" name="tahun_pendirian" value="[Tahun Pendirian]" /></td>
+            </tr>
+            <tr>
+                <th>Lintang Selatan</th>
+                <td><input type="text" name="longitude" value="[Longitude]" /></td>
+                <th>Kecamatan</th>
+                <td><input type="text" name="kecamatan" value="[Kecamatan]" /></td>
+                <th>Tipe Alat</th>
+                <td><input type="text" name="tipe_alat" value="[Tipe Alat]" /></td>
+            </tr>
+            <tr>
+                <th>Bujur Timur</th>
+                <td><input type="text" name="latitude" value="[Latitude]" /></td>
+                <th>Kab/Kota</th>
+                <td><input type="text" name="kabupaten" value="[Kabupaten]" /></td>
+                <th>Pengelola</th>
+                <td><input type="text" name="pengelola" value="[Pengelola]" /></td>
+            </tr>
+            <tr>
+                <th>Elevasi</th>
+                <td><input type="text" name="elevation" value="[Elevation]" /></td>
+                <td colspan="4"></td>
+            </tr>
+        </table>
+        
 
     <br>
 
@@ -236,15 +237,15 @@
             <tr>
                 <td>Q/n<sup>0.5</sup></td>
                 <td><input type="text" name="q_over_n" value="0" readonly></td>
-                <td> dengan probabilitas <input type="text" name="" id="" value="95">% dari tabel</td>
-                <td><input type="text"></td>
+                <td> dengan probabilitas <input type="text" name="q_p" id="q_p" value="95">% dari tabel</td>
+                <td><input type="text" name="q_value" id="q_value"></td>
                 <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" readonly></td>
             </tr>
             <tr>
                 <td>R/n<sup>0.5</sup></td>
                 <td><input type="text" name="r_over_n" value="0"></td>
-                <td> dengan probabilitas <input type="text" name="" id="" value="95">% dari tabel</td>
-                <td><input type="text"></td>
+                <td> dengan probabilitas <input type="text" name="r_p" id="r_p" value="95">% dari tabel</td>
+                <td><input type="text" name="r_value" id="r_value"></td>
                 <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" readonly></td>
             </tr>
         </table>
@@ -260,68 +261,60 @@
                     <th colspan="3">R/n<sup>0.5</sup></th>
                 </tr>
                 <tr>
-                    <th><input type="text" name="header_q_90" value="90%" readonly></th>
-                    <th><input type="text" name="header_q_95" value="95%" readonly></th>
-                    <th><input type="text" name="header_q_99" value="99%" readonly></th>
-                    <th><input type="text" name="header_r_90" value="90%" readonly></th>
-                    <th><input type="text" name="header_r_95" value="95%" readonly></th>
-                    <th><input type="text" name="header_r_99" value="99%" readonly></th>
+                    <th><input type="text" name="q" id="q" value="90%" readonly></th>
+                    <th><input type="text" name="q" id="q" value="95%" readonly></th>
+                    <th><input type="text" name="q" id="q" value="99%" readonly></th>
+                    <th><input type="text" name="r" id="r" value="90%" readonly></th>
+                    <th><input type="text" name="r" id="r" value="95%" readonly></th>
+                    <th><input type="text" name="r" id="r" value="99%" readonly></th>
                 </tr>                
                 <tr>
-                    <td><input type="text" name="n_10" value="10" readonly></td>
-                    <td><input type="text" name="q_90_10" value="1.05" readonly></td>
-                    <td><input type="text" name="q_95_10" value="1.14" readonly></td>
-                    <td><input type="text" name="q_99_10" value="1.29" readonly></td>
-                    <td><input type="text" name="r_90_10" value="1.21" readonly></td>
-                    <td><input type="text" name="r_95_10" value="1.28" readonly></td>
-                    <td><input type="text" name="r_99_10" value="1.38" readonly></td>
+                    <td><input type="text" name="n" id="n" value="10" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.05" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.14" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.29" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.21" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.28" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.38" readonly></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="n_20" value="20" readonly></td>
-                    <td><input type="text" name="q_90_20" value="1.10" readonly></td>
-                    <td><input type="text" name="q_95_20" value="1.22" readonly></td>
-                    <td><input type="text" name="q_99_20" value="1.42" readonly></td>
-                    <td><input type="text" name="r_90_20" value="1.34" readonly></td>
-                    <td><input type="text" name="r_95_20" value="1.43" readonly></td>
-                    <td><input type="text" name="r_99_20" value="1.60" readonly></td>
+                    <td><input type="text" name="n" id="n" value="20" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.10" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.22" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.42" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.34" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.43" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.60" readonly></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="n_30" value="30" readonly></td>
-                    <td><input type="text" name="q_90_30" value="1.12" readonly></td>
-                    <td><input type="text" name="q_95_30" value="1.24" readonly></td>
-                    <td><input type="text" name="q_99_30" value="1.48" readonly></td>
-                    <td><input type="text" name="r_90_30" value="1.40" readonly></td>
-                    <td><input type="text" name="r_95_30" value="1.50" readonly></td>
-                    <td><input type="text" name="r_99_30" value="1.70" readonly></td>
+                    <td><input type="text" name="n" id="n" value="30" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.12" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.24" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.48" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.40" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.50" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.70" readonly></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="n_40" value="40" readonly></td>
-                    <td><input type="text" name="q_90_40" value="1.14" readonly></td>
-                    <td><input type="text" name="q_95_40" value="1.27" readonly></td>
-                    <td><input type="text" name="q_99_40" value="1.52" readonly></td>
-                    <td><input type="text" name="r_90_40" value="1.44" readonly></td>
-                    <td><input type="text" name="r_95_40" value="1.55" readonly></td>
-                    <td><input type="text" name="r_99_40" value="1.78" readonly></td>
+                    <td><input type="text" name="n" id="n" value="40" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.14" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.27" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.52" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.44" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.55" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.78" readonly></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="n_100" value="100" readonly></td>
-                    <td><input type="text" name="q_90_100" value="1.17" readonly></td>
-                    <td><input type="text" name="q_95_100" value="1.32" readonly></td>
-                    <td><input type="text" name="q_99_100" value="1.63" readonly></td>
-                    <td><input type="text" name="r_90_100" value="1.62" readonly></td>
-                    <td><input type="text" name="r_95_100" value="1.75" readonly></td>
-                    <td><input type="text" name="r_99_100" value="2.00" readonly></td>
-                </tr>
-                <tr>
-                    <td><input type="text" name="n_12" value="12" readonly></td>
-                    <td><input type="text" name="q_90_12" value="1.05" readonly></td>
-                    <td><input type="text" name="q_95_12" value="1.14" readonly></td>
-                    <td><input type="text" name="q_99_12" value="1.29" readonly></td>
-                    <td><input type="text" name="r_90_12" value="1.21" readonly></td>
-                    <td><input type="text" name="r_95_12" value="1.28" readonly></td>
-                    <td><input type="text" name="r_99_12" value="1.38" readonly></td>
+                    <td><input type="text" name="n" id="n" value="100" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.17" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.29" readonly></td>
+                    <td><input type="text" name="q_n" id="q_n" value="1.55" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.62" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="1.75" readonly></td>
+                    <td><input type="text" name="r_n" id="r_n" value="2.00" readonly></td>
                 </tr>
             </table>
+            
             
             <p>Sumber: Sri Harto, 1993: 168</p>
         </div>
@@ -619,6 +612,52 @@
             // Set the calculated value in the r_over_n input field
             document.getElementsByName('r_over_n')[0].value = rOverNValue;
         }
+
+        function calculateValues() {
+        // Objects to hold the Q/n^0.5 and R/n^0.5 values for each 'n' and confidence level
+        const QTable = {
+            10: { '90%': 1.05, '95%': 1.14, '99%': 1.29 },
+            20: { '90%': 1.10, '95%': 1.22, '99%': 1.42 },
+            30: { '90%': 1.12, '95%': 1.24, '99%': 1.48 },
+            40: { '90%': 1.14, '95%': 1.27, '99%': 1.52 },
+            100: { '90%': 1.17, '95%': 1.29, '99%': 1.55 }
+        };
+
+        const RTable = {
+            10: { '90%': 1.21, '95%': 1.28, '99%': 1.38 },
+            20: { '90%': 1.34, '95%': 1.43, '99%': 1.60 },
+            30: { '90%': 1.40, '95%': 1.50, '99%': 1.70 },
+            40: { '90%': 1.44, '95%': 1.55, '99%': 1.78 },
+            100: { '90%': 1.50, '95%': 1.62, '99%': 1.85 }
+        };
+
+        // Function to calculate and set Q/n^0.5 value
+        function calculateQValue() {
+            let n = parseInt(document.querySelector('input[name="q_over_n"]').value);
+            let confidenceLevel = document.querySelector('input[name="q_p"]').value + '%';
+
+            let qValue = QTable[n] ? QTable[n][confidenceLevel] : 'Invalid input';
+            document.getElementById('q_value').value = qValue;
+        }
+
+        // Function to calculate and set R/n^0.5 value
+        function calculateRValue() {
+            let n = parseInt(document.querySelector('input[name="r_over_n"]').value);
+            let confidenceLevel = document.querySelector('input[name="r_p"]').value + '%';
+
+            let rValue = RTable[n] ? RTable[n][confidenceLevel] : 'Invalid input';
+            document.getElementById('r_value').value = rValue;
+        }
+
+        // Event listeners to trigger calculation when the input fields are changed
+        document.querySelector('input[name="q_over_n"]').addEventListener('input', calculateQValue);
+        document.querySelector('input[name="q_p"]').addEventListener('input', calculateQValue);
+        document.querySelector('input[name="r_over_n"]').addEventListener('input', calculateRValue);
+        document.querySelector('input[name="r_p"]').addEventListener('input', calculateRValue);
+    }
+
+    // Initialize the function
+    calculateValues();
 
 
     </script>
