@@ -216,7 +216,7 @@
         <table>
             <tr>
                 <td>n</td>
-                <td><input type="text" name="n" id="n" value="12" readonly></td>
+                <td><input type="text" name="n_value" id="n_value" value="12"></td>
             </tr>
             <tr>
                 <td>Sk**mak</td>
@@ -238,15 +238,15 @@
                 <td>Q/n<sup>0.5</sup></td>
                 <td><input type="text" name="q_over_n" value="0" readonly></td>
                 <td> dengan probabilitas <input type="text" name="q_p" id="q_p" value="95">% dari tabel</td>
-                <td><input type="text" name="q_value" id="q_value"></td>
-                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" readonly></td>
+                <td><input type="text" name="q_value" id="q_value" value="0" readonly></td>
+                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" value="-" readonly></td>
             </tr>
             <tr>
                 <td>R/n<sup>0.5</sup></td>
                 <td><input type="text" name="r_over_n" value="0"></td>
                 <td> dengan probabilitas <input type="text" name="r_p" id="r_p" value="95">% dari tabel</td>
-                <td><input type="text" name="r_value" id="r_value"></td>
-                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" readonly></td>
+                <td><input type="text" name="r_value" id="r_value" value="0" readonly></td>
+                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" value="-" readonly></td>
             </tr>
         </table>
 
@@ -345,9 +345,9 @@
                     }
                     if (day <= 10) {
                         periode1 += value;
-                    } else if (day >= 11 && day <= 20) {
+                    } else if (day <= 20) {
                         periode2 += value;
-                    } else if (day >= 21 && day <= 30) {
+                    } else {
                         periode3 += value;
                     }
                 }
@@ -359,11 +359,9 @@
             document.getElementById(`periode3_month${month}`).value = periode3;
     
             document.getElementById(`curah_hujan_${month - 1}`).value = total;
-
-            // Set the datahujan_month value to the count of non-zero values
+    
             document.getElementsByName(`datahujan_month${month}`)[0].value = nonZeroCount;
     
-            // Recalculate the total, average, maximum, minimum, Sk*, Sk* Brackets, and Rerata Sk* Brackets
             calculateCurahHujanTotal();
         }
     
@@ -387,24 +385,18 @@
                 }
             }
     
-            // Calculate average
             const rerataCurahHujan = count > 0 ? (jumlahCurahHujan / count).toFixed(2) : 0;
     
-            // If no valid minimum value was found, set it to 0
             if (minCurahHujan === Infinity) {
                 minCurahHujan = 0;
             }
     
-            // Set the values in the respective fields
             document.getElementById('jumlah_curah_hujan').value = jumlahCurahHujan;
             document.getElementById('rerata_curah_hujan').value = rerataCurahHujan;
             document.getElementById('maks_curah_hujan').value = maxCurahHujan;
             document.getElementById('min_curah_hujan').value = minCurahHujan;
     
-            // Calculate Sk* and Sk* Brackets for each month, then calculate the average Sk* Brackets
             calculateSk(rerataCurahHujan);
-
-            // Now calculate all Sk* values
             calculateAllSkStars();
         }
     
@@ -417,250 +409,201 @@
                 const skValue = (curahHujanValue - rerata).toFixed(2);
                 document.getElementById(`sk_${i}`).value = skValue;
     
-                // Calculate the absolute value for sk_brackets
                 const skBracketsValue = Math.abs(skValue).toFixed(2);
                 document.getElementById(`sk_brackets_${i}`).value = skBracketsValue;
-                
-                // Calculate Dy^2
-                const nValue = parseFloat(document.getElementById('n').value) || 12; // Default to 12 if not set
+    
+                const nValue = parseFloat(document.getElementById('n_value').value) || 12;
                 const dy2Value = ((skBracketsValue ** 2) / nValue).toFixed(2);
                 document.getElementById(`dy2_${i}`).value = dy2Value;
-
-                // Sum the Sk* Brackets values for average calculation
+    
                 totalSkBrackets += parseFloat(skBracketsValue);
                 count++;
             }
     
-            // Calculate the average Sk* Brackets
             const rerataSkBrackets = count > 0 ? (totalSkBrackets / count).toFixed(2) : 0;
             document.getElementById('rerata_sk_brackets').value = rerataSkBrackets;
-
-            // Calculate the sum of all dy2 values
-            calculateDy2Sum();            
+    
+            calculateDy2Sum();
         }
-
+    
         function calculateSkStar(i) {
             const skBracketsValue = parseFloat(document.getElementById(`sk_brackets_${i}`).value) || 0;
-            const dyValue = parseFloat(document.getElementById(`dy_${i}`).value) || 1; // Avoid division by 0
-
+            const dyValue = parseFloat(document.getElementById(`dy_${i}`).value) || 1;
+    
             const skStarValue = (dyValue !== 0) ? (skBracketsValue / dyValue).toFixed(2) : 0;
             document.getElementsByName(`sk_star_${i}`)[0].value = skStarValue;
-
-            // Calculate the absolute value for sk_star_brackets
+    
             const skStarBracketsValue = Math.abs(skStarValue).toFixed(2);
             document.getElementsByName(`sk_star_brackets_${i}`)[0].value = skStarBracketsValue;
         }
-
-        // Call this function after calculating all Sk* values
+    
         function calculateAllSkStars() {
             for (let i = 0; i < 12; i++) {
                 calculateSkStar(i);
             }
-
-            // Now calculate the maximum and minimum Sk* values
+    
             calculateMaxMinSk();
-
-            // Now calculate the maximum and minimum Sk* Brackets values
             calculateMaxMinSkBrackets();
         }
-
+    
         function calculateDy2Sum() {
             let sumDy2 = 0;
-
+    
             for (let i = 0; i < 12; i++) {
                 const dy2Value = parseFloat(document.getElementById(`dy2_${i}`).value) || 0;
                 sumDy2 += dy2Value;
             }
-
+    
             document.getElementsByName('jumlah_dy2')[0].value = sumDy2.toFixed(2);
-
-            // Update the Dy fields
+    
             updateDyFields();
         }
-        
+    
         function updateDyFields() {
             const jumlahDy2Value = parseFloat(document.getElementsByName('jumlah_dy2')[0].value) || 0;
             const sqrtValue = Math.sqrt(jumlahDy2Value).toFixed(2);
-
+    
             for (let i = 0; i < 12; i++) {
                 document.getElementById(`dy_${i}`).value = sqrtValue;
             }
         }
-        
+    
         function calculateMaxMinSk() {
             let maxSk = -Infinity;
             let minSk = Infinity;
-
+    
             for (let i = 0; i < 12; i++) {
                 const skStarValue = parseFloat(document.getElementsByName(`sk_star_${i}`)[0].value) || 0;
-
+    
                 if (skStarValue > maxSk) {
                     maxSk = skStarValue;
                 }
-
+    
                 if (skStarValue < minSk) {
                     minSk = skStarValue;
                 }
             }
-
-            // Set the maximum and minimum values
+    
             document.getElementsByName('maks_sk')[0].value = maxSk.toFixed(2);
             document.getElementsByName('min_sk')[0].value = minSk.toFixed(2);
-
-            // Set the sk_mak value
+    
             setSkMak();
-
-            // Set the sk_min value
             setSkMin();
         }
-
+    
         function calculateMaxMinSkBrackets() {
             let maxSkBrackets = -Infinity;
             let minSkBrackets = Infinity;
-
+    
             for (let i = 0; i < 12; i++) {
                 const skStarBracketsValue = parseFloat(document.getElementsByName(`sk_star_brackets_${i}`)[0].value) || 0;
-
+    
                 if (skStarBracketsValue > maxSkBrackets) {
                     maxSkBrackets = skStarBracketsValue;
                 }
-
+    
                 if (skStarBracketsValue < minSkBrackets) {
                     minSkBrackets = skStarBracketsValue;
                 }
             }
-
-            // Set the maximum and minimum values
+    
             document.getElementsByName('maks_sk_brackets')[0].value = maxSkBrackets.toFixed(2);
             document.getElementsByName('min_sk_brackets')[0].value = minSkBrackets.toFixed(2);
         }
-
-        // Ensure this function is called after both sk_mak and sk_min are set
+    
         function setSkMak() {
-            // Assuming sk_mak value is already set
             const maksSkValue = document.getElementsByName('maks_sk')[0].value;
             document.getElementsByName('sk_mak')[0].value = maksSkValue;
-
-            // Set the q_sk_mak value
+    
             setQSkMak();
-
-            // Calculate and set r_sk_diff value
             calculateRSkDiff();
         }
-
+    
         function setSkMin() {
-            // Assuming sk_min value is already set
             const minSkValue = document.getElementsByName('min_sk')[0].value;
             document.getElementsByName('sk_min')[0].value = minSkValue;
-
-            // Calculate and set r_sk_diff value
+    
             calculateRSkDiff();
         }
-
+    
         function setQSkMak() {
-            // Get the value from the sk_mak input field
             const skMakValue = document.getElementsByName('sk_mak')[0].value;
-
-            // Set the value in the q_sk_mak input field
             document.getElementsByName('q_sk_mak')[0].value = skMakValue;
-
-            // Calculate and set q_over_n value
+    
             calculateQOverN();
         }
-
+    
         function calculateRSkDiff() {
-            // Get the value from the sk_mak input field
             const skMakValue = parseFloat(document.getElementsByName('sk_mak')[0].value) || 0;
-
-            // Get the value from the sk_min input field
             const skMinValue = parseFloat(document.getElementsByName('sk_min')[0].value) || 0;
-
-            // Calculate the difference
             const rSkDiffValue = (skMakValue - skMinValue).toFixed(2);
-
-            // Set the value in the r_sk_diff input field
+    
             document.getElementsByName('r_sk_diff')[0].value = rSkDiffValue;
-
-            // Calculate and set r_over_n value
+    
             calculateROverN();
         }
-
+    
         function calculateQOverN() {
-            // Get the value from q_sk_mak input field
             const qSkMakValue = parseFloat(document.getElementsByName('q_sk_mak')[0].value) || 0;
-
-            // Get the value from n input field
-            const nValue = parseFloat(document.getElementById('n').value) || 1; // Default to 1 to avoid division by zero
-
-            // Calculate q_over_n using the formula q_sk_mak / (n ^ 0.5)
+            const nValue = parseFloat(document.getElementById('n_value').value) || 1;
+    
             const qOverNValue = (qSkMakValue / Math.sqrt(nValue)).toFixed(2);
-
-            // Set the calculated value in the q_over_n input field
             document.getElementsByName('q_over_n')[0].value = qOverNValue;
         }
-
+    
         function calculateROverN() {
-            // Get the value from r_sk_diff input field
             const rSkDiffValue = parseFloat(document.getElementsByName('r_sk_diff')[0].value) || 0;
-
-            // Get the value from n input field
-            const nValue = parseFloat(document.getElementById('n').value) || 1; // Default to 1 to avoid division by zero
-
-            // Calculate r_over_n using the formula r_sk_diff / (n ^ 0.5)
+            const nValue = parseFloat(document.getElementById('n_value').value) || 1;
+    
             const rOverNValue = (rSkDiffValue / Math.sqrt(nValue)).toFixed(2);
-
-            // Set the calculated value in the r_over_n input field
             document.getElementsByName('r_over_n')[0].value = rOverNValue;
         }
-
+    
         function calculateValues() {
-        // Objects to hold the Q/n^0.5 and R/n^0.5 values for each 'n' and confidence level
-        const QTable = {
-            10: { '90%': 1.05, '95%': 1.14, '99%': 1.29 },
-            20: { '90%': 1.10, '95%': 1.22, '99%': 1.42 },
-            30: { '90%': 1.12, '95%': 1.24, '99%': 1.48 },
-            40: { '90%': 1.14, '95%': 1.27, '99%': 1.52 },
-            100: { '90%': 1.17, '95%': 1.29, '99%': 1.55 }
-        };
-
-        const RTable = {
-            10: { '90%': 1.21, '95%': 1.28, '99%': 1.38 },
-            20: { '90%': 1.34, '95%': 1.43, '99%': 1.60 },
-            30: { '90%': 1.40, '95%': 1.50, '99%': 1.70 },
-            40: { '90%': 1.44, '95%': 1.55, '99%': 1.78 },
-            100: { '90%': 1.50, '95%': 1.62, '99%': 1.85 }
-        };
-
-        // Function to calculate and set Q/n^0.5 value
-        function calculateQValue() {
-            let n = parseInt(document.querySelector('input[name="q_over_n"]').value);
-            let confidenceLevel = document.querySelector('input[name="q_p"]').value + '%';
-
-            let qValue = QTable[n] ? QTable[n][confidenceLevel] : 'Invalid input';
-            document.getElementById('q_value').value = qValue;
+            const QTable = {
+                10: { '90': 1.05, '95': 1.14, '99': 1.29 },
+                20: { '90': 1.10, '95': 1.22, '99': 1.42 },
+                30: { '90': 1.12, '95': 1.24, '99': 1.48 },
+                40: { '90': 1.14, '95': 1.27, '99': 1.52 },
+                100: { '90': 1.17, '95': 1.29, '99': 1.55 }
+            };
+    
+            const RTable = {
+                10: { '90': 1.21, '95': 1.28, '99': 1.38 },
+                20: { '90': 1.34, '95': 1.43, '99': 1.60 },
+                30: { '90': 1.40, '95': 1.50, '99': 1.70 },
+                40: { '90': 1.44, '95': 1.55, '99': 1.78 },
+                100: { '90': 1.50, '95': 1.62, '99': 1.85 }
+            };
+    
+            function calculateQValue() {
+                const n = parseInt(document.querySelector('input[name="q_over_n"]').value);
+                const confidenceLevel = document.querySelector('input[name="q_p"]').value + '%';
+    
+                const qValue = QTable[n] && QTable[n][confidenceLevel] !== undefined 
+                    ? QTable[n][confidenceLevel] 
+                    : 'Invalid input';
+                document.getElementById('q_value').value = qValue;
+            }
+    
+            function calculateRValue() {
+                const n = parseInt(document.querySelector('input[name="r_over_n"]').value);
+                const confidenceLevel = document.querySelector('input[name="r_p"]').value + '%';
+    
+                const rValue = RTable[n] && RTable[n][confidenceLevel] !== undefined 
+                    ? RTable[n][confidenceLevel] 
+                    : 'Invalid input';
+                document.getElementById('r_value').value = rValue;
+            }
+    
+            document.querySelector('input[name="q_over_n"]').addEventListener('input', calculateQValue);
+            document.querySelector('input[name="q_p"]').addEventListener('input', calculateQValue);
+            document.querySelector('input[name="r_over_n"]').addEventListener('input', calculateRValue);
+            document.querySelector('input[name="r_p"]').addEventListener('input', calculateRValue);
         }
-
-        // Function to calculate and set R/n^0.5 value
-        function calculateRValue() {
-            let n = parseInt(document.querySelector('input[name="r_over_n"]').value);
-            let confidenceLevel = document.querySelector('input[name="r_p"]').value + '%';
-
-            let rValue = RTable[n] ? RTable[n][confidenceLevel] : 'Invalid input';
-            document.getElementById('r_value').value = rValue;
-        }
-
-        // Event listeners to trigger calculation when the input fields are changed
-        document.querySelector('input[name="q_over_n"]').addEventListener('input', calculateQValue);
-        document.querySelector('input[name="q_p"]').addEventListener('input', calculateQValue);
-        document.querySelector('input[name="r_over_n"]').addEventListener('input', calculateRValue);
-        document.querySelector('input[name="r_p"]').addEventListener('input', calculateRValue);
-    }
-
-    // Initialize the function
-    calculateValues();
-
-
-    </script>
+    
+        document.addEventListener('DOMContentLoaded', calculateValues);
+    </script>    
     
 </body>
 </html>

@@ -149,7 +149,7 @@ def generate_excel(data):
 
         worksheet.write(f'A{analysis_start + 16}', 'Hasil analisis :', header_format)
 
-        worksheet.write(f'A{analysis_start + 17}', 'n', header_format)
+        worksheet.write(f'A{analysis_start + 17}', 'n_value', header_format)
         worksheet.write(f'B{analysis_start + 17}', data.get('n', 12), yellow_fill)
 
         worksheet.write(f'A{analysis_start + 18}', 'Sk**mak', header_format)
