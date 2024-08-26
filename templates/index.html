@@ -25,12 +25,19 @@
             padding: 5px;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+    <input type="file" id="fileInput" accept=".csv, .xlsx, .xls" />
+    <button onclick="populateData()">Populate Data</button>
+
     <form method="post" action="/">
 
-
         <h2>DATA CURAH HUJAN HARIAN</h2>
+        
+
         <p>Tahun : <input type="text" name="tahun" value="[Tahun]" /></p>
         
         <table>
@@ -604,6 +611,59 @@
     
         document.addEventListener('DOMContentLoaded', calculateValues);
     </script>    
+
+    <script>
+        let excelData = {};
+
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const data = e.target.result;
+                    const workbook = XLSX.read(data, { type: 'binary' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    excelData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    console.log(excelData);
+                };
+                reader.readAsBinaryString(file);
+            }
+        }
+
+        function populateData() {
+            if (!excelData || excelData.length === 0) {
+                alert("Please upload and select a file first.");
+                return;
+            }
+
+            // Assuming the data you want starts at row 2 (row 1 being headers)
+            document.querySelector('input[name="tahun"]').value = excelData[1][0].toString().match(/\d+/)?.[0] || '';
+            document.querySelector('input[name="nama_stasiun"]').value = excelData[3][2];
+            document.querySelector('input[name="kode_stasiun"]').value = excelData[4][2];
+            document.querySelector('input[name="longitude"]').value = excelData[5][2];
+            document.querySelector('input[name="latitude"]').value = excelData[6][2];
+            document.querySelector('input[name="elevation"]').value = excelData[7][2];
+            document.querySelector('input[name="wilayah_sungai"]').value = excelData[4][7];
+            document.querySelector('input[name="kelurahan"]').value = excelData[5][7];
+            document.querySelector('input[name="kecamatan"]').value = excelData[6][7];
+            document.querySelector('input[name="kabupaten"]').value = excelData[7][7];
+            document.querySelector('input[name="kode_database"]').value = excelData[4][11];
+            document.querySelector('input[name="tahun_pendirian"]').value = excelData[5][11];
+            document.querySelector('input[name="tipe_alat"]').value = excelData[6][11];
+            document.querySelector('input[name="pengelola"]').value = excelData[7][11];
+
+            // Loop to populate the daily data
+            for (let day = 1; day <= 31; day++) {
+                for (let month = 1; month <= 12; month++) {
+                    const value = excelData[day + 10][month];
+                    document.querySelector(`input[name="day${day}_month${month}"]`).value = value || 0;
+                }
+            }
+        }
+    </script>
     
 </body>
 </html>
