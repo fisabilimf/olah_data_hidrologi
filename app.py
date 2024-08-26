@@ -54,6 +54,10 @@ def generate_excel(data):
             'fg_color': '#FFFF00',
             'border': 1
         })
+        green_fill = workbook.add_format({
+            'fg_color': '#00FF00',
+            'border': 1
+        })
 
         # Set column widths
         worksheet.set_column('A:A', 15)
@@ -116,11 +120,12 @@ def generate_excel(data):
                 worksheet.write(day + 10, month, data.get(f'day{day}_month{month}', 0), normal_format)
 
         # Write totals
-        totals = ['Total', 'Periode1', 'Periode2', 'Periode3', 'Maksimum', 'Data Hujan']
+        totals = ['Total', 'Periode1', 'Periode2', 'Periode3', 'Maksimum', 'DataHujan']
         for i, total in enumerate(totals):
             worksheet.write(42 + i, 0, total, header_format)
             for month in range(1, 13):
                 worksheet.write(42 + i, month, data.get(f'{total.lower()}_month{month}', 0), normal_format)
+                # worksheet.write(42 + i, 13, data.get(f'datahujan_month{{ month }}', 0), normal_format)
         # Write analysis table headers
         analysis_start = 49
         analysis_headers = ['No', 'Bulan', 'Curah Hujan', 'Sk*', '[Sk*]', 'Dy^2', 'Dy', 'Sk**', '[Sk**]']
@@ -141,51 +146,78 @@ def generate_excel(data):
             worksheet.write(analysis_start + i + 1, 8, data.get(f'sk_star_brackets_{i}', 0), normal_format)
 
         # Write final analysis summary
-        worksheet.write(f'A{analysis_start + 13}', 'Rerata', header_format)
-        worksheet.write(f'B{analysis_start + 13}', data.get('rerata_curah_hujan', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 14}', 'Rerata', header_format)
+        worksheet.write(f'C{analysis_start + 14}', data.get('rerata_curah_hujan', 0), normal_format)
+        
+        worksheet.write(f'E{analysis_start + 14}', data.get('rerata_sk_brackets', 0), normal_format)
 
-        worksheet.write(f'A{analysis_start + 14}', 'Jumlah', header_format)
-        worksheet.write(f'B{analysis_start + 14}', data.get('jumlah_curah_hujan', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 15}', 'Jumlah', header_format)
+        worksheet.write(f'C{analysis_start + 15}', data.get('jumlah_curah_hujan', 0), normal_format)
+        
+        worksheet.write(f'F{analysis_start + 15}', data.get('jumlah_dy2', 0), normal_format)
+        
+        worksheet.write(f'B{analysis_start + 16}', 'Maks', header_format)
+        worksheet.write(f'C{analysis_start + 16}', data.get('maks_curah_hujan', 0), normal_format)
+        
+        worksheet.write(f'H{analysis_start + 16}', data.get('maks_sk', 0), normal_format)
+        worksheet.write(f'I{analysis_start + 16}', data.get('maks_sk_brackets', 0), normal_format)
+        
+        worksheet.write(f'B{analysis_start + 17}', 'Min', header_format)
+        worksheet.write(f'C{analysis_start + 17}', data.get('min_curah_hujan', 0), normal_format)
+        
+        worksheet.write(f'H{analysis_start + 17}', data.get('min_sk', 0), normal_format)
+        worksheet.write(f'I{analysis_start + 17}', data.get('min_sk_brackets', 0), normal_format)
 
-        worksheet.write(f'A{analysis_start + 16}', 'Hasil analisis :', header_format)
+        worksheet.write(f'B{analysis_start + 19}', 'Hasil analisis :', normal_format)
 
-        worksheet.write(f'A{analysis_start + 17}', 'n_value', header_format)
-        worksheet.write(f'B{analysis_start + 17}', data.get('n', 12), yellow_fill)
+        worksheet.write(f'B{analysis_start + 20}', 'n', header_format)
+        worksheet.write(f'C{analysis_start + 20}', data.get('n_value', 12), normal_format)
 
-        worksheet.write(f'A{analysis_start + 18}', 'Sk**mak', header_format)
-        worksheet.write(f'B{analysis_start + 18}', data.get('sk_mak', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 21}', 'Sk**mak', header_format)
+        worksheet.write(f'C{analysis_start + 21}', data.get('sk_mak', 0), normal_format)
 
-        worksheet.write(f'A{analysis_start + 19}', 'Sk**min', header_format)
-        worksheet.write(f'B{analysis_start + 19}', data.get('sk_min', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 22}', 'Sk**min', header_format)
+        worksheet.write(f'C{analysis_start + 22}', data.get('sk_min', 0), normal_format)
 
-        worksheet.write(f'A{analysis_start + 20}', 'Q = Sk**mak', header_format)
-        worksheet.write(f'B{analysis_start + 20}', data.get('sk_mak', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 23}', 'Q = Sk**mak', header_format)
+        worksheet.write(f'C{analysis_start + 23}', data.get('sk_mak', 0), normal_format)
 
-        worksheet.write(f'A{analysis_start + 21}', 'R = Sk**mak - Sk**min', header_format)
-        worksheet.write(f'B{analysis_start + 21}', data.get('r_sk_diff', 0), normal_format)
+        worksheet.write(f'B{analysis_start + 24}', 'R = Sk**mak - Sk**min', header_format)
+        worksheet.write(f'C{analysis_start + 24}', data.get('r_sk_diff', 0), normal_format)
 
-        worksheet.write(f'A{analysis_start + 22}', 'Q/n^0.5', header_format)
-        worksheet.write(f'B{analysis_start + 22}', data.get('q_over_n', 0), normal_format)
-        worksheet.write(f'C{analysis_start + 22}', '< dengan probabilitas 95% dari tabel', header_format)
-        worksheet.write(f'D{analysis_start + 22}', data.get('q_table_value', 0), yellow_fill)
-        worksheet.write(f'E{analysis_start + 22}', 'OK!!!', header_format)
+        worksheet.write(f'B{analysis_start + 25}', 'Q/n^0.5', header_format)
+        worksheet.write(f'C{analysis_start + 25}', data.get('q_over_n', 0), normal_format)
+        worksheet.write(f'D{analysis_start + 25}', '< dengan probabilitas 95% dari tabel', header_format)
+        worksheet.write(f'E{analysis_start + 25}', data.get('q_value', 0), normal_format)
+        if (data.get('q_over_n') < data.get('q_value')):
+            worksheet.write(f'F{analysis_start + 25}', data.get('q_over_n_status_text', 'OK!'), green_fill)
+        else:
+            worksheet.write(f'F{analysis_start + 25}', data.get('q_over_n_status_text', 'NOT OK!'), yellow_fill)
 
-        worksheet.write(f'A{analysis_start + 23}', 'R/n^0.5', header_format)
-        worksheet.write(f'B{analysis_start + 23}', data.get('r_over_n', 0), normal_format)
-        worksheet.write(f'C{analysis_start + 23}', '< dengan probabilitas 95% dari tabel', header_format)
-        worksheet.write(f'D{analysis_start + 23}', data.get('r_table_value', 0), yellow_fill)
-        worksheet.write(f'E{analysis_start + 23}', 'OK!!!', header_format)
+        # worksheet.write(f'F{analysis_start + 25}', data.get('q_over_n_status_text', '-'), normal_format)
+
+        worksheet.write(f'B{analysis_start + 26}', 'R/n^0.5', header_format)
+        worksheet.write(f'C{analysis_start + 26}', data.get('r_over_n', 0), normal_format)
+        worksheet.write(f'D{analysis_start + 26}', '< dengan probabilitas 95% dari tabel', header_format)
+        worksheet.write(f'E{analysis_start + 26}', data.get('r_value', 0), normal_format)
+        if (data.get('r_over_n') < data.get('r_value')):
+            worksheet.write(f'F{analysis_start + 26}', data.get('r_over_n_status_text', 'OK!'), green_fill)
+        else:
+            worksheet.write(f'F{analysis_start + 26}', data.get('r_over_n_status_text', 'NOT OK!'), yellow_fill)
+
+        # worksheet.write(f'F{analysis_start + 26}', data.get('r_over_n_status_text', '-'), normal_format)
 
         # Write the final analysis table for Q/n^0.5 and R/n^0.5 values
-        final_table_start = analysis_start + 25
-        worksheet.merge_range(f'B{final_table_start}:D{final_table_start}', 'Nilai Q/n^0.5 dan R/n^0.5', title_format)
+        final_table_start = analysis_start + 28
+        worksheet.merge_range(f'B{final_table_start}:D{final_table_start}', 'Nilai Q/n^0.5 dan R/n^0.5', normal_format)
 
-        final_table_headers = ['n', 'Q/n^0.5 (90%)', 'Q/n^0.5 (95%)', 'Q/n^0.5 (99%)', 'R/n^0.5 (90%)', 'R/n^0.5 (95%)', 'R/n^0.5 (99%)']
+        final_table_headers = ['n', 'Q/n^0.5', 'Q/n^0.5', 'Q/n^0.5', 'R/n^0.5', 'R/n^0.5', 'R/n^0.5']
         for i, header in enumerate(final_table_headers):
-            worksheet.write(final_table_start + 1, i + 1, header, header_format)
+            worksheet.write(final_table_start, i + 1, header, header_format)
 
         # Sample values for Q/n^0.5 and R/n^0.5
         final_table_data = [
+            (" ", "90%", "95%", "99%", "90%", "95%", "99%"),
             (10, 1.05, 1.14, 1.29, 1.21, 1.28, 1.38),
             (20, 1.10, 1.22, 1.42, 1.34, 1.43, 1.60),
             (30, 1.12, 1.24, 1.48, 1.40, 1.50, 1.70),
@@ -195,7 +227,7 @@ def generate_excel(data):
 
         for i, row in enumerate(final_table_data):
             for j, value in enumerate(row):
-                worksheet.write(final_table_start + 2 + i, j + 1, value, normal_format)
+                worksheet.write(final_table_start + 1 + i, j + 1, value, normal_format)
 
         # Final source citation
         worksheet.merge_range(f'C{final_table_start + 9}:H{final_table_start + 9}', 'Sumber: Sri Harto, 1993: 168', normal_format)

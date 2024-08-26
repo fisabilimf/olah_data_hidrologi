@@ -111,11 +111,6 @@
                 {% endfor %}
             </tr>
             {% endfor %}
-        </table>
-
-        <br>
-
-        <table>
             <tr>
                 <th>Total</th>
                 {% for month in range(1, 13) %}
@@ -146,23 +141,14 @@
                 <td><input type="text" id="maksimum_month{{ month }}" name="maksimum_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
-        </table>
-
-        <br>
-
-        <table>
             <tr>
                 <th>Data Hujan</th>
                 {% for month in range(1, 13) %}
-                <td><input type="text" name="datahujan_month{{ month }}" value="0"></td>
+                <td><input type="text" id="datahujan_month{{ month }}" name="datahujan_month{{ month }}" value="0" readonly></td>
                 {% endfor %}
             </tr>
         </table>
-
         <br>
-
-        <br><br>
-
         <table>
             <tr>
                 <th>No</th>
@@ -243,18 +229,66 @@
             </tr>
             <tr>
                 <td>Q/n<sup>0.5</sup></td>
-                <td><input type="text" name="q_over_n" value="0" readonly></td>
+                <td><input type="text" name="q_over_n" id="q_over_n" value="0" readonly></td>
                 <td> dengan probabilitas <input type="text" name="q_p" id="q_p" value="95">% dari tabel</td>
-                <td><input type="text" name="q_value" id="q_value" value="0" readonly></td>
-                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" value="-" readonly></td>
-            </tr>
+                <td><input type="text" name="q_value" id="q_value" value="1.20" readonly></td>
+                <td name="q_over_n_status" id="q_over_n_status" style="background-color: yellow;">
+                    <input name="q_over_n_status_text" id="q_over_n_status_text" type="text" style="background-color: yellow;" value="-" readonly>
+                </td>
+            </tr>            
+            <script>
+                function updateStatus() {
+                    var qOverN = parseFloat(document.getElementById('q_over_n').value);
+                    var qValue = parseFloat(document.getElementById('q_value').value);
+
+                    var statusCell = document.getElementById('q_over_n_status');
+                    var statusText = document.getElementById('q_over_n_status_text');
+
+                    if (qOverN < qValue) {
+                        statusCell.style.backgroundColor = 'green';
+                        statusText.style.backgroundColor = 'green';
+                        statusText.value = 'OK!';
+                    } else {
+                        statusCell.style.backgroundColor = 'red';
+                        statusText.style.backgroundColor = 'red';
+                        statusText.value = 'NOT OK!';
+                    }
+                }
+
+                // Call the function initially or when needed
+                updateStatus();
+            </script>
             <tr>
                 <td>R/n<sup>0.5</sup></td>
-                <td><input type="text" name="r_over_n" value="0"></td>
+                <td><input type="text" name="r_over_n" id="r_over_n" value="0" readonly></td>
                 <td> dengan probabilitas <input type="text" name="r_p" id="r_p" value="95">% dari tabel</td>
-                <td><input type="text" name="r_value" id="r_value" value="0" readonly></td>
-                <td style="background-color: yellow;"><input type="text" style="background-color: yellow;" value="-" readonly></td>
-            </tr>
+                <td><input type="text" name="r_value" id="r_value" value="1.39" readonly></td>
+                <td name="r_over_n_status" id="r_over_n_status" style="background-color: yellow;">
+                    <input name="r_over_n_status_text" id="r_over_n_status_text" type="text" style="background-color: yellow;" value="-" readonly>
+                </td>
+            </tr>            
+            <script>
+                function updateStatusR() {
+                    var rOverN = parseFloat(document.getElementById('r_over_n').value);
+                    var rValue = parseFloat(document.getElementById('r_value').value);
+
+                    var statusCellR = document.getElementById('r_over_n_status');
+                    var statusTextR = document.getElementById('r_over_n_status_text');
+
+                    if (rOverN < rValue) {
+                        statusCellR.style.backgroundColor = 'green';
+                        statusTextR.style.backgroundColor = 'green';
+                        statusTextR.value = 'OK!';
+                    } else {
+                        statusCellR.style.backgroundColor = 'red';
+                        statusTextR.style.backgroundColor = 'red';
+                        statusTextR.value = 'NOT OK!';
+                    }
+                }
+
+                // Call the function initially or when needed
+                updateStatusR();
+            </script>
         </table>
 
         <br><br>
@@ -359,13 +393,13 @@
                     }
                 }
             }
-            document.getElementById(`total_month${month}`).value = total;
-            document.getElementById(`maksimum_month${month}`).value = max;
-            document.getElementById(`periode1_month${month}`).value = periode1;
-            document.getElementById(`periode2_month${month}`).value = periode2;
-            document.getElementById(`periode3_month${month}`).value = periode3;
+            document.getElementById(`total_month${month}`).value = total.toFixed(2);
+            document.getElementById(`maksimum_month${month}`).value = max.toFixed(2);
+            document.getElementById(`periode1_month${month}`).value = periode1.toFixed(2);
+            document.getElementById(`periode2_month${month}`).value = periode2.toFixed(2);
+            document.getElementById(`periode3_month${month}`).value = periode3.toFixed(2);
     
-            document.getElementById(`curah_hujan_${month - 1}`).value = total;
+            document.getElementById(`curah_hujan_${month - 1}`).value = total.toFixed(2);
     
             document.getElementsByName(`datahujan_month${month}`)[0].value = nonZeroCount;
     
@@ -398,10 +432,10 @@
                 minCurahHujan = 0;
             }
     
-            document.getElementById('jumlah_curah_hujan').value = jumlahCurahHujan;
+            document.getElementById('jumlah_curah_hujan').value = jumlahCurahHujan.toFixed(2);
             document.getElementById('rerata_curah_hujan').value = rerataCurahHujan;
-            document.getElementById('maks_curah_hujan').value = maxCurahHujan;
-            document.getElementById('min_curah_hujan').value = minCurahHujan;
+            document.getElementById('maks_curah_hujan').value = maxCurahHujan.toFixed(2);
+            document.getElementById('min_curah_hujan').value = minCurahHujan.toFixed(2);
     
             calculateSk(rerataCurahHujan);
             calculateAllSkStars();
@@ -565,51 +599,6 @@
             const rOverNValue = (rSkDiffValue / Math.sqrt(nValue)).toFixed(2);
             document.getElementsByName('r_over_n')[0].value = rOverNValue;
         }
-    
-        function calculateValues() {
-            const QTable = {
-                10: { '90': 1.05, '95': 1.14, '99': 1.29 },
-                20: { '90': 1.10, '95': 1.22, '99': 1.42 },
-                30: { '90': 1.12, '95': 1.24, '99': 1.48 },
-                40: { '90': 1.14, '95': 1.27, '99': 1.52 },
-                100: { '90': 1.17, '95': 1.29, '99': 1.55 }
-            };
-    
-            const RTable = {
-                10: { '90': 1.21, '95': 1.28, '99': 1.38 },
-                20: { '90': 1.34, '95': 1.43, '99': 1.60 },
-                30: { '90': 1.40, '95': 1.50, '99': 1.70 },
-                40: { '90': 1.44, '95': 1.55, '99': 1.78 },
-                100: { '90': 1.50, '95': 1.62, '99': 1.85 }
-            };
-    
-            function calculateQValue() {
-                const n = parseInt(document.querySelector('input[name="q_over_n"]').value);
-                const confidenceLevel = document.querySelector('input[name="q_p"]').value + '%';
-    
-                const qValue = QTable[n] && QTable[n][confidenceLevel] !== undefined 
-                    ? QTable[n][confidenceLevel] 
-                    : 'Invalid input';
-                document.getElementById('q_value').value = qValue;
-            }
-    
-            function calculateRValue() {
-                const n = parseInt(document.querySelector('input[name="r_over_n"]').value);
-                const confidenceLevel = document.querySelector('input[name="r_p"]').value + '%';
-    
-                const rValue = RTable[n] && RTable[n][confidenceLevel] !== undefined 
-                    ? RTable[n][confidenceLevel] 
-                    : 'Invalid input';
-                document.getElementById('r_value').value = rValue;
-            }
-    
-            document.querySelector('input[name="q_over_n"]').addEventListener('input', calculateQValue);
-            document.querySelector('input[name="q_p"]').addEventListener('input', calculateQValue);
-            document.querySelector('input[name="r_over_n"]').addEventListener('input', calculateRValue);
-            document.querySelector('input[name="r_p"]').addEventListener('input', calculateRValue);
-        }
-    
-        document.addEventListener('DOMContentLoaded', calculateValues);
     </script>    
 
     <script>
