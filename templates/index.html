@@ -79,10 +79,7 @@
                 <td colspan="4"></td>
             </tr>
         </table>
-        
-
     <br>
-
         <table>
             <tr>
                 <th rowspan="2">Tanggal</th>
@@ -237,7 +234,7 @@
                 </td>
             </tr>            
             <script>
-                function updateStatus() {
+                function updateStatusQ() {
                     var qOverN = parseFloat(document.getElementById('q_over_n').value);
                     var qValue = parseFloat(document.getElementById('q_value').value);
 
@@ -256,7 +253,6 @@
                 }
 
                 // Call the function initially or when needed
-                updateStatus();
             </script>
             <tr>
                 <td>R/n<sup>0.5</sup></td>
@@ -287,7 +283,6 @@
                 }
 
                 // Call the function initially or when needed
-                updateStatusR();
             </script>
         </table>
 
@@ -360,7 +355,61 @@
             <p>Sumber: Sri Harto, 1993: 168</p>
         </div>
 
-        
+        <br>
+
+        <div>
+            <h2>Uji Abnormalitas Data</h2>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Bulan</th>
+                    <th>Curah Hujan (mm)</th>
+                    <th>Log X</th>
+                </tr>
+                <tr>
+                    {% set months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] %}
+                    {% for i in range(12) %}
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ months[i] }}</td>
+                        <td><input type="text" id="curah_hujan_x_{{ i }}" name="curah_hujan_x_{{ i }}" value="0" readonly></td>
+                        <td><input type="text" name="logx_{{ i }}" id="logx_{{ i }}" value="0" readonly></td>
+                    </tr>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td colspan="2">Stdev</td>
+                    <td><input type="text" name="stdev" id="stdev" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Mean</td>
+                    <td><input type="text" name="xmean" id="xmean" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Kn</td>
+                    <td><input type="text" name="kn" id="kn" value="2.13" readonly></td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="2">Nilai Ambang Atas</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Xh=</td>
+                    <td><input type="text" name="Xh" id="Xh" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Nilai Ambang Bawah</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Xi=</td>
+                    <td><input type="text" name="Xi" id="Xi" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="text" name="status_uji" id="status_uji" value="-" readonly></td>
+                </tr>
+            </table>
+        </div>
+        <br>
         <input type="submit" value="Submit">
     </form>
     
@@ -400,10 +449,19 @@
             document.getElementById(`periode3_month${month}`).value = periode3.toFixed(2);
     
             document.getElementById(`curah_hujan_${month - 1}`).value = total.toFixed(2);
+            document.getElementById(`curah_hujan_x_${month - 1}`).value = total.toFixed(2);
     
             document.getElementsByName(`datahujan_month${month}`)[0].value = nonZeroCount;
     
             calculateCurahHujanTotal();
+            calculateLogXValues();
+            calculateStandardDeviation();
+            calculateMean();
+            calculateXh();
+            calculateXi();
+            checkDataEligibility();
+            updateStatusQ();
+            updateStatusR();
         }
     
         function calculateCurahHujanTotal() {
@@ -651,8 +709,156 @@
                     document.querySelector(`input[name="day${day}_month${month}"]`).value = value || 0;
                 }
             }
+            for (let month = 1; month <= 12; month++) {
+                calculateTotals(month); // Calculate totals for each month
+            }
+            calculateCurahHujanTotal();
         }
     </script>
     
+    <script>
+        function calculateLogXValues() {
+            for (let i = 0; i < 12; i++) {
+                const curahHujanValue = parseFloat(document.getElementById(`curah_hujan_x_${i}`).value) || 0;
+                const logXValue = curahHujanValue > 0 ? Math.log10(curahHujanValue).toFixed(2) : 0; // Calculate log base 10
+                document.getElementById(`logx_${i}`).value = logXValue;
+            }
+        }
+        
+    </script>
+
+    <script>
+        function calculateStandardDeviation() {
+            let values = [];
+            let total = 0;
+            let count = 0;
+        
+            for (let i = 0; i < 12; i++) {
+                const value = parseFloat(document.getElementById(`logx_${i}`).value) || 0;
+                if (value > 0) { // Consider only non-zero values
+                    values.push(value);
+                    total += value;
+                    count++;
+                }
+            }
+        
+            if (count === 0) {
+                document.getElementById('stdev').value = 0; // No values to compute stdev
+                return;
+            }
+        
+            // Calculate the mean
+            const mean = total / count;
+        
+            // Compute variance
+            let varianceSum = 0;
+            for (let i = 0; i < values.length; i++) {
+                varianceSum += Math.pow(values[i] - mean, 2);
+            }
+            const variance = varianceSum / count;
+        
+            // Calculate standard deviation
+            const stdev = Math.sqrt(variance).toFixed(2);
+        
+            // Set the standard deviation value in the input field
+            document.getElementById('stdev').value = stdev;
+        }
+
+    </script>
+
+    <script>
+        function calculateMean() {
+            let total = 0;
+            let count = 0;
+        
+            for (let i = 0; i < 12; i++) {
+                const value = parseFloat(document.getElementById(`logx_${i}`).value) || 0;
+                if (value > 0) { // Consider only non-zero values
+                    total += value;
+                    count++;
+                }
+            }
+        
+            // Calculate the mean
+            const mean = count > 0 ? (total / count).toFixed(2) : 0;
+        
+            // Set the mean value in the xmean input field
+            document.getElementById('xmean').value = mean;
+        }
+    </script>
+
+    <script>
+        function calculateXh() {
+            // Retrieve the values of xmean, kn, and stdev
+            const xmean = parseFloat(document.getElementById('xmean').value) || 0;
+            const kn = parseFloat(document.getElementById('kn').value) || 0;
+            const stdev = parseFloat(document.getElementById('stdev').value) || 0;
+        
+            // Calculate Xh using the formula: Xh = 10^(xmean + (kn * stdev))
+            const XhValue = Math.pow(10, xmean + (kn * stdev)).toFixed(2);
+        
+            // Update the Xh input field with the calculated value
+            document.getElementById('Xh').value = XhValue;
+        }
+
+        function calculateXi() {
+            // Retrieve the values of xmean, kn, and stdev
+            const xmean = parseFloat(document.getElementById('xmean').value) || 0;
+            const kn = parseFloat(document.getElementById('kn').value) || 0;
+            const stdev = parseFloat(document.getElementById('stdev').value) || 0;
+
+            // Calculate Xi using the formula: Xi = 10^(xmean - (kn * stdev))
+            const XiValue = Math.pow(10, xmean - (kn * stdev)).toFixed(2);
+
+            // Update the Xi input field with the calculated value
+            document.getElementById('Xi').value = XiValue;
+        }
+    
+    </script>
+
+    <script>
+        function checkDataEligibility() {
+            // Retrieve the values of Xi and Xh
+            const Xi = parseFloat(document.getElementById('Xi').value) || 0;
+            const Xh = parseFloat(document.getElementById('Xh').value) || 0;
+        
+            // Initialize variables to keep track of the min and max curah_hujan_x values
+            let minValue = Infinity;
+            let maxValue = -Infinity;
+        
+            // Loop through all curah_hujan_x inputs to find the min and max values
+            for (let i = 0; i < 12; i++) {
+                const value = parseFloat(document.getElementById(`curah_hujan_x_${i}`).value) || 0;
+        
+                // Update min and max values
+                if (value < minValue) {
+                    minValue = value;
+                }
+                if (value > maxValue) {
+                    maxValue = value;
+                }
+            }
+        
+            // Check if all values are within the range [Xi, Xh]
+            const result = (minValue >= Xi && maxValue <= Xh)
+                ? "Data tersebut layak digunakan"
+                : "Data tersebut tidak layak digunakan";
+            // Update the status in the status_uji input field
+            const statusField = document.getElementById('status_uji');
+            statusField.value = result;
+
+            // Change the background color based on the result
+            if (result === "Data tersebut layak digunakan") {
+                statusField.style.backgroundColor = "green";
+                statusField.style.color = "white"; // Ensure text is readable
+            } else {
+                statusField.style.backgroundColor = "red";
+                statusField.style.color = "white"; // Ensure text is readable
+            }
+                }
+        
+    </script>
+    
+
 </body>
 </html>
