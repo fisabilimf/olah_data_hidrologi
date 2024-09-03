@@ -232,8 +232,51 @@ def generate_excel(data):
         # Final source citation
         worksheet.merge_range(f'C{final_table_start + 9}:H{final_table_start + 9}', 'Sumber: Sri Harto, 1993: 168', normal_format)
 
+                # Write "Uji Abnormalitas Data" Table
+        abnormal_data_start = final_table_start + 11  # Start row for the new table
+        
+        # Write headers for the "Uji Abnormalitas Data" table
+        worksheet.write(abnormal_data_start, 1, 'No', header_format)
+        worksheet.write(abnormal_data_start, 2, 'Bulan', header_format)
+        worksheet.write(abnormal_data_start, 3, 'Curah Hujan (mm)', header_format)
+        worksheet.write(abnormal_data_start, 4, 'Log X', header_format)
+
+        # List of months
+        months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+
+        # Write data rows for the "Uji Abnormalitas Data" table
+        for i, month in enumerate(months):
+            worksheet.write(abnormal_data_start + i + 1, 1, i + 1, normal_format)  # Write the row number
+            worksheet.write(abnormal_data_start + i + 1, 2, month, normal_format)  # Write the month name
+            worksheet.write(abnormal_data_start + i + 1, 3, data.get(f'curah_hujan_x_{i}', 0), normal_format)  # Write Curah Hujan (mm)
+            worksheet.write(abnormal_data_start + i + 1, 4, data.get(f'logx_{i}', 0), normal_format)  # Write Log X
+
+        # Write the additional rows for Stdev, Mean, Kn, Xh, and Xi
+        worksheet.write(abnormal_data_start + 13, 2, 'Stdev', header_format)
+        worksheet.write(abnormal_data_start + 13, 3, data.get('stdev', 0), normal_format)
+
+        worksheet.write(abnormal_data_start + 14, 2, 'Mean', header_format)
+        worksheet.write(abnormal_data_start + 14, 3, data.get('xmean', 0), normal_format)
+
+        worksheet.write(abnormal_data_start + 15, 2, 'Kn', header_format)
+        worksheet.write(abnormal_data_start + 15, 3, data.get('kn', 2.13), normal_format)
+
+        worksheet.write(abnormal_data_start + 16, 2, 'Nilai Ambang Atas', header_format)
+
+        worksheet.write(abnormal_data_start + 17, 2, 'Xh=', header_format)
+        worksheet.write(abnormal_data_start + 17, 3, data.get('Xh', 0), normal_format)
+
+        worksheet.write(abnormal_data_start + 18, 2, 'Nilai Ambang Bawah', header_format)
+
+        worksheet.write(abnormal_data_start + 19, 2, 'Xi=', header_format)
+        worksheet.write(abnormal_data_start + 19, 3, data.get('Xi', 0), normal_format)
+
+        # Write the status of the test
+        worksheet.write(abnormal_data_start + 20, 2, data.get('status_uji', '-'), normal_format)
+
     output.seek(0)  # Rewind the buffer
     return output
 
 if __name__ == '__main__':
-    app.run(host='192.168.11.4', port=5001, debug=True)
+    # app.run(port=5001, debug=True)
+    app.run(host='103.183.92.89', port=5001, debug=False)
