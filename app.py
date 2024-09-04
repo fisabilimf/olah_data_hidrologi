@@ -278,5 +278,6 @@ def generate_excel(data):
     return output
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(debug=True)
+    # app.run(port=5001, debug=True)
     # app.run(host='103.183.92.89', port=5001, debug=False)
