@@ -232,7 +232,7 @@ def generate_excel(data):
         # Final source citation
         worksheet.merge_range(f'C{final_table_start + 9}:H{final_table_start + 9}', 'Sumber: Sri Harto, 1993: 168', normal_format)
 
-                # Write "Uji Abnormalitas Data" Table
+        # Write "Uji Abnormalitas Data" Table
         abnormal_data_start = final_table_start + 11  # Start row for the new table
         
         # Write headers for the "Uji Abnormalitas Data" table
@@ -277,7 +277,7 @@ def generate_excel(data):
     output.seek(0)  # Rewind the buffer
     return output
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
     # app.run(port=5001, debug=True)
     # app.run(host='103.183.92.89', port=5001, debug=False)
